@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 type Restaurant = { name: string; cuisine: string; area: string };
@@ -8,10 +8,11 @@ type Restaurant = { name: string; cuisine: string; area: string };
 export default function ReviewPage({
   params,
 }: {
-  params: { restaurantId: string };
+  params: Promise<{ restaurantId: string }>;
 }) {
   const router = useRouter();
-  const restaurantId = Number(params.restaurantId);
+  const { restaurantId: idStr } = use(params);
+  const restaurantId = Number(idStr);
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
   const [rating, setRating] = useState<number>(0);
   const [hover, setHover] = useState<number>(0);
