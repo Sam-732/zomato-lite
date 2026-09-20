@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 type Review = { id: number; rating: number; comment: string; createdAt: string };
 type Data = {
@@ -30,8 +30,10 @@ function formatCreatedAt(iso: string) {
   return new Date(iso).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
 }
 
-export default function RestaurantPage({ params }: { params: { id: string } }) {
-  const id = Number(params.id);
+
+export default function RestaurantPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: idStr } = use(params);
+  const id = Number(idStr);
   const [data, setData] = useState<Data | null>(null);
   const [notFound, setNotFound] = useState(false);
 
